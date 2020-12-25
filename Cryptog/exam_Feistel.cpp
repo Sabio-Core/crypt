@@ -6,18 +6,17 @@
 
 char function(char subblock, unsigned key)
 {
-    return (subblock + 1) ^ key; // функция
-    //(subblock * key[round]) % static_cast<char>(pow(2, round)+1)
+    return (subblock + 1) ^ key; // ГґГіГ­ГЄГ¶ГЁГї
 }
 
 void decrypt(string &mes, unsigned key[], int n)
 {
     char temp = '0', l = '0', r = '0';
-    for (int desc = 0; desc < mes.size(); desc += 2) // рассматриваем блоки по 2 символа
+    for (int desc = 0; desc < mes.size(); desc += 2) // Г°Г Г±Г±Г¬Г ГІГ°ГЁГўГ ГҐГ¬ ГЎГ«Г®ГЄГЁ ГЇГ® 2 Г±ГЁГ¬ГўГ®Г«Г 
     {
         l = mes[desc];
         r = mes[desc + 1];
-        for (int i = n-1; i >= 0; --i)  // n раундов
+        for (int i = n-1; i >= 0; --i)  // n Г°Г ГіГ­Г¤Г®Гў
         {
             temp = l ^ function(r, key[i]);
             l = r;
@@ -31,13 +30,13 @@ void decrypt(string &mes, unsigned key[], int n)
 void encrypt(string &mes, unsigned key[], int n)
 {
     char temp = '0', l = '0', r = '0';
-    for (int desc = 0; desc < mes.size(); desc += 2) // рассматриваем блоки по 2 символа
+    for (int desc = 0; desc < mes.size(); desc += 2) // Г°Г Г±Г±Г¬Г ГІГ°ГЁГўГ ГҐГ¬ ГЎГ«Г®ГЄГЁ ГЇГ® 2 Г±ГЁГ¬ГўГ®Г«Г 
     {
         l = mes[desc + 1];
-        std::cout<<"Левый подблок: "<< l<<std::endl;
+        std::cout<<"Left subblock:\t"<< l<<std::endl;
         r = mes[desc];
-        std::cout<<"Правый подблок: "<< r <<std::endl;
-        for (int i = 0; i < n; ++i) // n раундов
+        std::cout<<"Right subblock:\t"<< r <<std::endl;
+        for (int i = 0; i < n; ++i) // n Г°Г ГіГ­Г¤Г®Гў
         {
             temp = r ^ function(l, key[i]);
             r = l;
@@ -49,14 +48,14 @@ void encrypt(string &mes, unsigned key[], int n)
 }
 
 int main(int arc, char** argv) {
-    string block = "TEST"; //Исходное сообщение
+    string block = "TEST"; //Г€Г±ГµГ®Г¤Г­Г®ГҐ Г±Г®Г®ГЎГ№ГҐГ­ГЁГҐ
 
-    unsigned key [] = {0x0d, 0xf0, 0xfe, 0xca};// Ключ
+    unsigned key [] = {0x0d, 0xf0, 0xfe, 0xca};// ГЉГ«ГѕГ·
 
-    std::cout << "Сообщение\t" << block << std::endl;
+    std::cout << "Message\t" << block << std::endl;
     encrypt(block, key, block.length());
-    std::cout << "Защифровано\t" << block << std::endl;
+    std::cout << "Encrypted\t" << block << std::endl;
     decrypt(block, key, block.length());
-    std::cout << "Расшифровано\t" << block << std::endl;
+    std::cout << "Decrypted\t" << block << std::endl;
     return 0;
 }
